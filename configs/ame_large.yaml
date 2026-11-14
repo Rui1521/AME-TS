@@ -1,0 +1,84 @@
+# AME-Large pre-training: d768, 6 layers, 5 experts, top-2
+# Run: python scripts/train.py --config-name ame_large
+
+hydra:
+  run:
+    dir: outputs/pretrain/${hydra:runtime.choices.model}/${run_name}
+defaults:
+  - model: ame_large
+  - data: ame_large
+  - _self_
+
+run_name: AMETS_d${model.module_kwargs.d_model}_L${model.module_kwargs.num_layers}_E${model.module_kwargs.num_experts}_k${model.module_kwargs.num_experts_per_tok}_seq${model.module_kwargs.max_seq_len}_bs${train_dataloader.batch_size}_lr${model.lr}_kl${model.kl_loss_coef}_lb${model.lb_loss_coef}_orth${model.ortho_loss_coef}_recon${model.recon_loss_coef}_mask${model.min_mask_ratio}-${model.max_mask_ratio}_${model.kl_divergence_type}_${model.routing_mode}_${model.lambda_schedule}_${model.loss_type}_${model.scheduler_type}
+seed: 42
+tf32: true
+compile: false
+ckpt_path: null
+
+trainer:
+  _target_: lightning.Trainer
+  accelerator: gpu
+  strategy: ddp_find_unused_parameters_true
+  devices: 8
+  num_nodes: 1
+  precision: bf16-mixed
+  max_epochs: 200
+  logger:
+    _target_: lightning.pytorch.loggers.CSVLogger
+    save_dir: ${hydra:runtime.output_dir}
+    name: training_logs
+    version: ""
+  callbacks:
+    - _target_: amets.callbacks.HuggingFaceCheckpoint.HuggingFaceCheckpoint
+      dirpath: ${hydra:runtime.output_dir}/HF_checkpoints
+      filename: last
+      monitor: epoch
+      mode: max
+      save_top_k: -1
+      every_n_epochs: 5
+    - _target_: lightning.pytorch.callbacks.ModelCheckpoint
+      dirpath: ${hydra:runtime.output_dir}/checkpoints
+      filename: epoch_{epoch:02d}
+      auto_insert_metric_name: false
+      monitor: epoch
+      save_top_k: -1
+      every_n_epochs: 5
+      save_on_train_epoch_end: true
+      save_last: true
+    - _target_: lightning.pytorch.callbacks.LearningRateMonitor
+      logging_interval: step
+    - _target_: lightning.pytorch.callbacks.EarlyStopping
+      monitor: train/total_loss
+      patience: 1000
+      check_finite: true
+      mode: min
+      verbose: true
+  enable_progress_bar: true
+  accumulate_grad_batches: 1
+  gradient_clip_val: 2.0
+  gradient_clip_algorithm: norm
+
+train_dataloader:
+  _target_: amets.data.loader.DataLoader
+  batch_size: 16
+  batch_size_factor: 1.0
+  cycle: true
+  num_batches_per_epoch: 2000
+  shuffle: true
+  num_workers: 8
+  collate_fn:
+    _target_: amets.data.loader.PackCollate
+    max_length: ${model.module_kwargs.max_seq_len}
+    seq_fields: ${cls_getattr:${model._target_},seq_fields}
+    pad_func_map: ${cls_getattr:${model._target_},pad_func_map}
+  pin_memory: true
+  drop_last: true
+  fill_last: false
+  worker_init_fn: null
+  prefetch_factor: 4
+  persistent_workers: true
+
+router_logging:
+  enabled: true
+  log_interval: 10
+  log_on_epoch_end: true

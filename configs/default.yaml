@@ -1,0 +1,5 @@
+# Default training config: AME-Tiny. Select another scale with --config-name ame_<scale>.
+
+defaults:
+  - ame_tiny
+  - _self_

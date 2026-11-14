@@ -1,0 +1,34 @@
+# This file defines a cross-platform conda environment for AME-TS.
+#
+#   conda env create -f environment.yml
+#   conda activate amets
+#   pip install -e .
+#
+# The pins are loose so that the environment resolves on Linux, macOS, and
+# Windows. The tested environment is Linux with Python 3.10, torch 2.4.1, and
+# CUDA 12.1.
+#
+# The `pytorch` channel resolves a CPU build on macOS. On Linux and Windows it
+# resolves a CUDA build when a compatible driver is present. For a specific
+# CUDA version, install torch separately as described at
+# https://pytorch.org/get-started/.
+
+name: amets
+channels:
+  - pytorch
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+
+  # Scientific stack. Conda builds of these packages are often faster than wheels.
+  - numpy>=1.23
+  - pandas>=1.5
+  - scipy>=1.10
+  - matplotlib>=3.7
+
+  # Deep learning
+  - pytorch>=2.0
+
+  - pip:
+      - -r requirements.txt

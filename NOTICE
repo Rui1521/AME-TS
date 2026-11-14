@@ -1,0 +1,64 @@
+AME-TS
+Copyright 2025 AME-TS Authors
+
+This product includes software developed at Salesforce, Inc.
+
+================================================================================
+
+This repository contains and derives from third-party software licensed under
+the Apache License, Version 2.0. A copy of that license is in the LICENSE file
+at the root of this repository.
+
+--------------------------------------------------------------------------------
+1. uni2ts / Moirai
+--------------------------------------------------------------------------------
+
+    Copyright (c) 2024, Salesforce, Inc.
+    SPDX-License-Identifier: Apache-2.0
+    Upstream: https://github.com/SalesforceAIResearch/uni2ts
+
+The `amets/` package is derived from uni2ts (the codebase for the Moirai
+time series foundation model). 57 of its 67 Python source files retain the
+original Salesforce copyright header, and are either unmodified or modified from
+their original form. Substantially derived components include the data pipeline
+(`amets/data/`), transforms (`amets/transform/`), transformer and attention
+modules (`amets/module/`), and the environment and optimizer helpers
+(`amets/common/`, `amets/optim/`). `scripts/download_lotsa.py` also retains the
+Salesforce header.
+
+Modifications made for this project include, but are not limited to: the
+structure-aware routing mechanism (`amets/model/combined_regime_predictor.py`, `amets/module/ffn_moe.py`), the
+Mixture-of-Experts transformer variants (`amets/module/transformer_moe.py`),
+point-prediction output in place of distributional output, and the associated
+training and evaluation scripts.
+
+--------------------------------------------------------------------------------
+2. Hugging Face Transformers
+--------------------------------------------------------------------------------
+
+    Copyright 2018 The Google AI Language Team Authors and The HuggingFace Inc. team.
+    SPDX-License-Identifier: Apache-2.0
+    Upstream: https://github.com/huggingface/transformers
+
+The learning rate schedules in `amets/optim/lr_scheduler.py` are adapted from
+Hugging Face Transformers and keep its copyright header.
+
+--------------------------------------------------------------------------------
+3. GIFT-Eval
+--------------------------------------------------------------------------------
+
+    Copyright (c) 2024 Salesforce, Inc.
+    SPDX-License-Identifier: Apache-2.0
+    Upstream: https://github.com/SalesforceAIResearch/gift-eval
+
+Evaluation imports the `gift_eval` package from a separate checkout that the
+user obtains directly from upstream (see README). Two files adapt the windowing
+logic of `gift_eval/data.py` and say so in their headers:
+`amets/data/gift_eval_split.py` and `amets/data/gift_eval_val.py`. No other
+GIFT-Eval code is included.
+
+--------------------------------------------------------------------------------
+
+Benchmark datasets are not distributed with this repository. GIFT-Eval data is
+obtained from HuggingFace (Salesforce/GiftEval) and remains subject to the
+licenses of its constituent datasets.

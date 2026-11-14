@@ -1,0 +1,41 @@
+# This file lists the runtime dependencies of AME-TS.
+# It sets loose lower bounds only. Pin exact versions in your own environment
+# if you need bit-for-bit reproducibility. Install with: pip install -e .
+
+# Deep learning
+torch>=2.0.0
+lightning>=2.0.0
+
+# Configuration
+hydra-core>=1.3.0
+omegaconf>=2.3.0
+python-dotenv>=1.0.0
+
+# Tensor utilities
+einops>=0.6.0
+jaxtyping>=0.2.0
+
+# Data and Hugging Face
+datasets>=2.12.0
+huggingface_hub>=0.16.0
+pyarrow>=12.0.0
+transformers>=4.30.0
+
+# Time series
+gluonts>=0.13.0
+statsmodels>=0.14.0
+
+# Scientific stack
+numpy>=1.23.0
+pandas>=1.5.0
+scipy>=1.10.0
+
+# Plotting and analysis, used by evaluation/
+matplotlib>=3.7.0
+seaborn>=0.12.0
+scikit-learn>=1.2.0
+umap-learn>=0.5.3
+
+# Progress bars
+tqdm>=4.65.0
+

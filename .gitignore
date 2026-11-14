@@ -1,0 +1,15 @@
+__pycache__/
+*.egg-info/
+.env
+outputs/
+results*/
+gift-eval/
+gift-eval-data/
+pretrain-data/
+regime-label-cache/
+regime_predictor/trained_predictors/*.pt
+*.ckpt
+.ipynb_checkpoints/
+router_embeddings/
+evaluation/figures/
+dataset_sizes.json

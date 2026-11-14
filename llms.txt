@@ -1,0 +1,60 @@
+# AME-TS
+
+> AME-TS (Anchored Mixture-of-Experts for Time Series Forecasting) is a sparse time series foundation model. A regime predictor estimates forecastability, seasonality, trend, and sparsity from the raw series. The model turns them into a structural prior over experts that guides routing during training. The code is licensed under Apache-2.0. See NOTICE for third-party attribution.
+
+The paper "AME-TS: Anchored Mixture-of-Experts for Time Series Forecasting" was accepted at NeurIPS 2026. It is at https://openreview.net/forum?id=NtOUejNcpe and describes the method and the results.
+
+Run training and evaluation commands from the repository root. Paths resolve from the repository root by default, and environment variables or a `.env` file can override them. See `README.md` for setup.
+
+## Docs
+
+- [Paper](https://openreview.net/forum?id=NtOUejNcpe): The paper describes the method, experiments, and results.
+- [README.md](README.md): The README covers installation, data setup, the training stages, evaluation, and the layout.
+- [CONTRIBUTING.md](CONTRIBUTING.md): This file gives the conventions for issues, pull requests, and license headers.
+- [NOTICE](NOTICE): This file lists the third-party attributions.
+- [LICENSE](LICENSE): This file holds the Apache License 2.0.
+- [regime_predictor/trained_predictors/README.md](regime_predictor/trained_predictors/README.md): This README explains how to create the regime predictor checkpoint.
+
+## Model code
+
+- [amets/model/pretrain.py](amets/model/pretrain.py): `AMETSPretrain` is the Lightning module and computes the training loss.
+- [amets/model/module.py](amets/model/module.py): `AMETSModule` is the model.
+- [amets/model/combined_regime_predictor.py](amets/model/combined_regime_predictor.py): The regime predictor scores the four descriptors.
+- [amets/module/ffn_moe.py](amets/module/ffn_moe.py): `MoEAnchoredFeedForward` builds the structural prior and routes tokens.
+- [amets/module/transformer_moe.py](amets/module/transformer_moe.py): This file holds the Mixture-of-Experts transformer encoder and computes the anchor strength per layer.
+- [amets/transform/context.py](amets/transform/context.py): This transform saves the raw context of each variate. `AMETSPretrain.forward()` computes the descriptor scores from it on the GPU.
+
+## Data pipeline
+
+- [amets/data/builder/](amets/data/builder/): This directory holds the dataset builders, including the GIFT-Eval builder.
+- [amets/data/loader.py](amets/data/loader.py): The loader packs several series into one sequence.
+- [amets/data/pool_guard.py](amets/data/pool_guard.py): The guard refuses training roots that overlap the GIFT-Eval benchmark data.
+- [amets/common/env.py](amets/common/env.py): This file defines the environment variables, their defaults, and the gift-eval path helpers.
+
+## Configs
+
+- [configs/](configs/): The top-level `ame_<scale>.yaml` files cover tiny, small, base, large, and ultra. `default.yaml` selects `ame_tiny`.
+- [configs/model/](configs/model/): These are the model configs, one per scale.
+- [configs/data/](configs/data/): These are the training data configs, one per scale.
+
+## Scripts
+
+- [scripts/train.py](scripts/train.py): This script runs pre-training. Run it as `python scripts/train.py --config-name ame_<scale>`.
+- [scripts/train_ame_base.sh](scripts/train_ame_base.sh): This is the 8-GPU launcher for the base scale. Each scale has its own launcher.
+- [scripts/evaluate.py](scripts/evaluate.py): This script runs GIFT-Eval evaluation.
+- [scripts/evaluate_protocol.sh](scripts/evaluate_protocol.sh): This script runs the full GIFT-Eval protocol. It runs the val grid, selects configs on val, evaluates them on test, and computes the scores.
+- [scripts/select_configs.py](scripts/select_configs.py): This script selects a config for each task on the val split.
+- [scripts/score.py](scripts/score.py): This script computes the GIFT-Eval geometric-mean score against the seasonal naive baseline.
+- [scripts/build_train_split.py](scripts/build_train_split.py): This script writes the GIFT-Eval training split.
+- [scripts/build_synthetic_dataset.py](scripts/build_synthetic_dataset.py): This script generates the synthetic training series.
+- [scripts/download_lotsa.py](scripts/download_lotsa.py): This script downloads LOTSA datasets.
+- [scripts/download_chronos.py](scripts/download_chronos.py): This script downloads Chronos datasets.
+- [regime_predictor/train.py](regime_predictor/train.py): This script trains the regime predictor.
+- [regime_predictor/train.sh](regime_predictor/train.sh): This is the launcher for regime predictor training.
+- [regime_predictor/feature_computation/](regime_predictor/feature_computation/): This package computes the descriptor labels.
+
+## Evaluation utilities
+
+- [evaluation/eval_utils.py](evaluation/eval_utils.py): This file aggregates and plots results.
+- [evaluation/evaluation.ipynb](evaluation/evaluation.ipynb): This is the analysis notebook.
+- [evaluation/extract_router_embeddings.py](evaluation/extract_router_embeddings.py): This script extracts router embeddings.

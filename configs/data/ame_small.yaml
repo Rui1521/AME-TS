@@ -1,0 +1,159 @@
+# AME-Small pre-training data: GIFT-Eval train split plus synthetic and LOTSA series, sampled by weight
+
+_target_: amets.data.builder.gift_eval.GiftEvalDatasetBuilder
+storage_path: ${oc.env:PRETRAIN_DATA}
+sample_time_series: uniform
+datasets:
+- m4_yearly
+- m4_quarterly
+- m4_monthly
+- m4_weekly
+- m4_daily
+- m4_hourly
+- electricity/15T
+- electricity/H
+- electricity/D
+- electricity/W
+- solar/10T
+- solar/H
+- solar/D
+- solar/W
+- jena_weather/10T
+- jena_weather/H
+- jena_weather/D
+- temperature_rain_with_missing
+- ett1/15T
+- ett1/H
+- ett1/D
+- ett1/W
+- ett2/15T
+- ett2/H
+- ett2/D
+- ett2/W
+- LOOP_SEATTLE/5T
+- LOOP_SEATTLE/H
+- LOOP_SEATTLE/D
+- SZ_TAXI/15T
+- SZ_TAXI/H
+- M_DENSE/H
+- M_DENSE/D
+- hospital
+- covid_deaths
+- us_births/D
+- us_births/M
+- us_births/W
+- restaurant
+- hierarchical_sales/D
+- hierarchical_sales/W
+- saugeenday/D
+- saugeenday/M
+- saugeenday/W
+- kdd_cup_2018_with_missing/H
+- kdd_cup_2018_with_missing/D
+- bitbrains_fast_storage/5T
+- bitbrains_fast_storage/H
+- bitbrains_rnd/5T
+- bitbrains_rnd/H
+- bizitobs_application
+- bizitobs_service
+- bizitobs_l2c/5T
+- bizitobs_l2c/H
+- synthetic
+- lotsa_m5
+- lotsa_buildings_900k
+- lotsa_london_smart_meters_with_missing
+- lotsa_extended_web_traffic_with_missing
+- lotsa_alibaba_cluster_trace_2018
+- lotsa_favorita_sales
+- lotsa_PEMS03
+- lotsa_PEMS04
+- lotsa_PEMS07
+- lotsa_PEMS08
+- lotsa_PEMS_BAY
+- lotsa_traffic_hourly
+- lotsa_uber_tlc_hourly
+- lotsa_pedestrian_counts
+- lotsa_australian_electricity_demand
+- lotsa_wind_farms_with_missing
+- lotsa_wind_power
+- lotsa_solar_power
+- lotsa_subseasonal
+- lotsa_weather
+- lotsa_oikolab_weather
+weight_map:
+  m4_yearly: 0.086618
+  m4_quarterly: 0.15465135
+  m4_monthly: 0.16776593
+  m4_weekly: 4.37592151
+  m4_daily: 1.94342724
+  m4_hourly: 3.64161204
+  electricity/15T: 26.57362162
+  electricity/H: 22.17762894
+  electricity/D: 4.52698955
+  electricity/W: 1.71104122
+  solar/10T: 41.28309157
+  solar/H: 16.85375156
+  solar/D: 3.44025763
+  solar/W: 1.30029516
+  jena_weather/10T: 2246.62481954
+  jena_weather/H: 917.19374076
+  jena_weather/D: 187.22138835
+  temperature_rain_with_missing: 0.30656772
+  ett1/15T: 1497.77110676
+  ett1/H: 748.88555338
+  ett1/D: 152.86562346
+  ett1/W: 57.77777481
+  ett2/15T: 1497.77110676
+  ett2/H: 748.88555338
+  ett2/D: 152.86562346
+  ett2/W: 57.77777481
+  LOOP_SEATTLE/5T: 30.44037152
+  LOOP_SEATTLE/H: 11.11378638
+  LOOP_SEATTLE/D: 2.26859214
+  SZ_TAXI/15T: 8.17955836
+  SZ_TAXI/H: 4.08977918
+  M_DENSE/H: 54.70083271
+  M_DENSE/D: 11.16576072
+  hospital: 0.73003001
+  covid_deaths: 1.9730757
+  us_births/D: 197.09535006
+  us_births/M: 35.693043
+  us_births/W: 74.46890609
+  restaurant: 1.59334492
+  hierarchical_sales/D: 8.87744712
+  hierarchical_sales/W: 3.35535962
+  saugeenday/D: 355.94608244
+  saugeenday/M: 64.51836855
+  saugeenday/W: 134.51688668
+  kdd_cup_2018_with_missing/H: 14.2021241
+  kdd_cup_2018_with_missing/D: 2.89871436
+  bitbrains_fast_storage/5T: 7.865792
+  bitbrains_fast_storage/H: 2.28502271
+  bitbrains_rnd/5T: 12.5155848
+  bitbrains_rnd/H: 3.61293813
+  bizitobs_application: 296.08628983
+  bizitobs_service: 64.61634639
+  bizitobs_l2c/5T: 836.59572969
+  bizitobs_l2c/H: 241.50438487
+  synthetic: 0.011871
+  lotsa_m5: 0.677467
+  lotsa_buildings_900k: 0.00345176
+  lotsa_alibaba_cluster_trace_2018: 0.13738283
+  lotsa_extended_web_traffic_with_missing: 0.04273354
+  lotsa_london_smart_meters_with_missing: 1.12260687
+  lotsa_favorita_sales: 0.05540764
+  lotsa_PEMS03: 5.2169642
+  lotsa_PEMS04: 7.85698853
+  lotsa_PEMS07: 3.44723872
+  lotsa_PEMS08: 10.82357386
+  lotsa_PEMS_BAY: 7.72211528
+  lotsa_traffic_hourly: 2.73756034
+  lotsa_uber_tlc_hourly: 2.47328116
+  lotsa_pedestrian_counts: 16.34645266
+  lotsa_australian_electricity_demand: 130.9776027
+  lotsa_wind_farms_with_missing: 15.60285169
+  lotsa_wind_power: 238.44842242
+  lotsa_solar_power: 94.57999053
+  lotsa_subseasonal: 5.33047109
+  lotsa_weather: 1.32155917
+  lotsa_oikolab_weather: 68.19007605

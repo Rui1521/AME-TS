@@ -1,0 +1,146 @@
+# AME-Tiny pre-training data: GIFT-Eval train split plus synthetic and LOTSA M5 series, sampled by weight
+
+_target_: amets.data.builder.gift_eval.GiftEvalDatasetBuilder
+
+datasets:
+  # M4 Competition (Econ/Fin)
+  - m4_yearly
+  - m4_quarterly
+  - m4_monthly
+  - m4_weekly
+  - m4_daily
+  - m4_hourly
+
+  # Electricity (Energy)
+  - electricity/15T
+  - electricity/H
+  - electricity/D
+  - electricity/W
+
+  # Solar (Energy)
+  - solar/10T
+  - solar/H
+  - solar/D
+  - solar/W
+
+  # Weather (Nature)
+  - jena_weather/10T
+  - jena_weather/H
+  - jena_weather/D
+  - temperature_rain_with_missing
+
+  # ETT (Energy)
+  - ett1/15T
+  - ett1/H
+  - ett1/D
+  - ett1/W
+  - ett2/15T
+  - ett2/H
+  - ett2/D
+  - ett2/W
+
+  # Traffic (Transport)
+  - LOOP_SEATTLE/5T
+  - LOOP_SEATTLE/H
+  - LOOP_SEATTLE/D
+  - SZ_TAXI/15T
+  - SZ_TAXI/H
+  - M_DENSE/H
+  - M_DENSE/D
+
+  # Healthcare
+  - hospital
+  - covid_deaths
+  - us_births/D
+  - us_births/M
+  - us_births/W
+
+  # Sales
+  - restaurant
+  - hierarchical_sales/D
+  - hierarchical_sales/W
+
+  # Nature
+  - saugeenday/D
+  - saugeenday/M
+  - saugeenday/W
+  - kdd_cup_2018_with_missing/H
+  - kdd_cup_2018_with_missing/D
+
+  # Web/CloudOps (multivariate)
+  - bitbrains_fast_storage/5T
+  - bitbrains_fast_storage/H
+  - bitbrains_rnd/5T
+  - bitbrains_rnd/H
+  - bizitobs_application
+  - bizitobs_service
+  - bizitobs_l2c/5T
+  - bizitobs_l2c/H
+
+  # Synthetic and LOTSA M5
+  - synthetic
+  - lotsa_m5
+
+weight_map:
+  m4_yearly: 1.0
+  m4_quarterly: 1.0
+  m4_daily: 1.0
+  m4_monthly: 1.0
+
+  hospital: 0.5
+  saugeenday/D: 0.3
+  saugeenday/M: 0.3
+  saugeenday/W: 0.3
+  kdd_cup_2018_with_missing/H: 1.0
+  kdd_cup_2018_with_missing/D: 1.0
+  temperature_rain_with_missing: 1.0
+  hierarchical_sales/D: 1.0
+  hierarchical_sales/W: 1.0
+  SZ_TAXI/15T: 0.5
+  SZ_TAXI/H: 0.5
+  synthetic: 0.0115
+  lotsa_m5: 1.0
+
+  ett1/15T: 1.0
+  ett1/H: 0.5
+  ett1/D: 0.5
+  ett1/W: 0.5
+  ett2/15T: 1.0
+  ett2/H: 0.5
+  ett2/D: 0.5
+  ett2/W: 0.5
+  restaurant: 1.0
+  bitbrains_rnd/5T: 1.0
+  bitbrains_rnd/H: 1.0
+  us_births/D: 1.0
+  us_births/M: 0.5
+  us_births/W: 0.5
+  jena_weather/10T: 1.5
+  jena_weather/H: 1.5
+  jena_weather/D: 1.5
+  covid_deaths: 1.0
+  m4_weekly: 1.5
+  LOOP_SEATTLE/5T: 2.0
+  LOOP_SEATTLE/H: 2.0
+  LOOP_SEATTLE/D: 2.0
+
+  electricity/15T: 2.0
+  electricity/H: 2.0
+  electricity/D: 1.5
+  electricity/W: 1.5
+  bitbrains_fast_storage/5T: 2.0
+  bitbrains_fast_storage/H: 2.0
+  solar/10T: 2.0
+  solar/H: 2.0
+  solar/D: 1.5
+  solar/W: 1.5
+  bizitobs_l2c/5T: 2.0
+  bizitobs_l2c/H: 2.0
+  M_DENSE/H: 2.0
+  M_DENSE/D: 2.0
+
+  m4_hourly: 3.0
+  bizitobs_application: 3.0
+  bizitobs_service: 3.0
+
+storage_path: ${oc.env:PRETRAIN_DATA}
